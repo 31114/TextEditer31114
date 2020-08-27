@@ -13,13 +13,14 @@ namespace TextEditer31114
 {
     public partial class TextEditer : Form
     {
-        private string fileName = "";
+            
+        public string fileName = "新規ファイル";
         public TextEditer()
         {
             InitializeComponent();
             tsmiUndo.Enabled = false;
             tsmiRedo.Enabled = false;
-
+            this.Text = fileName;
         }
         private void OToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -30,6 +31,7 @@ namespace TextEditer31114
                     rtbTextEditer.Text = sr.ReadToEnd();
                     this.fileName = ofdFileOpen.FileName;
                 }
+                this.Text = fileName;
             }
         }
 
@@ -43,13 +45,13 @@ namespace TextEditer31114
 
         private void smiOverwrite_Click(object sender, EventArgs e)
         {
-            if (this.fileName != "")
+            if (this.fileName != "新規ファイル" || this.Text != "新規ファイル")
             {
                 FileSave(fileName);
             }
             else
             {
-                OToolStripMenuItem_Click(sender, e);
+                AToolStripMenuItem_Click(sender, e);
             }
         }
 
@@ -112,11 +114,39 @@ namespace TextEditer31114
                 rtbTextEditer.SelectedText = "";
             }
         }
-
+        private void TextEditer_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            PopupMessage(1);
+        }
         private void tsmiExit_Click(object sender, EventArgs e)
         {
             Application.Exit();
         }
+
+        private void PopupMessage(int Num)
+        {
+            switch (Num)
+            {
+                case 1:
+                    {
+                        Form2 form2 = new Form2();
+                        form2.Show();
+                        //MessageBox.Show("Can't Touch This", "Error",
+                        //    MessageBoxButtons.OK,
+                        //    MessageBoxIcon.Error);
+                        break;
+                    }
+                case 2:
+                    {
+                        MessageBox.Show("不完全な文字列", "Error",
+                            MessageBoxButtons.OK,
+                            MessageBoxIcon.Warning);
+                        break;
+                    }
+            }
+        }
+
+        
 
         private void 編集EToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -171,8 +201,27 @@ namespace TextEditer31114
 
         private void tsmiFont_Click(object sender, EventArgs e)
         {
-            //rtbTextEditer.SelectedText
-            
+            if(fdFont.ShowDialog() == DialogResult.OK)
+            {
+                rtbTextEditer.SelectionFont = fdFont.Font;
+            }
         }
+
+        private void tsmiColor_Click(object sender, EventArgs e)
+        {
+            if (cdColor.ShowDialog() == DialogResult.OK)
+            {
+                rtbTextEditer.SelectionColor = cdColor.Color;
+            }
+        }
+
+        private void tsmiCreateNew_Click(object sender, EventArgs e)
+        {
+            this.Text = "新規ファイル"; //アプリケーションのタイトルを変更
+            this.fileName = "新規ファイル";
+            rtbTextEditer.Clear();      //テキストボックスの内容をクリア
+        }
+
+        
     }
 }

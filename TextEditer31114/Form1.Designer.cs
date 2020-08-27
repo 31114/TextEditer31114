@@ -33,7 +33,7 @@
             this.rtbTextEditer = new System.Windows.Forms.RichTextBox();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
             this.メニューFToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.新規作成NToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiCreateNew = new System.Windows.Forms.ToolStripMenuItem();
             this.OToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.smiOverwrite = new System.Windows.Forms.ToolStripMenuItem();
             this.AToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -48,11 +48,11 @@
             this.tsmiPaste = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripSeparator4 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiDelete = new System.Windows.Forms.ToolStripMenuItem();
-            this.文字コードCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.ヘルプCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
             this.tsmiFont = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiColor = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.文字コードCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.ヘルプCToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.fdFont = new System.Windows.Forms.FontDialog();
             this.cdColor = new System.Windows.Forms.ColorDialog();
             this.menuStrip1.SuspendLayout();
@@ -61,6 +61,10 @@
             // ofdFileOpen
             // 
             this.ofdFileOpen.FileName = "ofdFileOpen";
+            // 
+            // sfdFileSave
+            // 
+            this.sfdFileSave.Filter = "テキストファイル (*.txt)|*.txt|リッチテキストファイル(*.rtf)|*.rtf";
             // 
             // rtbTextEditer
             // 
@@ -89,7 +93,7 @@
             // メニューFToolStripMenuItem
             // 
             this.メニューFToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.新規作成NToolStripMenuItem,
+            this.tsmiCreateNew,
             this.OToolStripMenuItem,
             this.smiOverwrite,
             this.AToolStripMenuItem,
@@ -99,12 +103,13 @@
             this.メニューFToolStripMenuItem.Size = new System.Drawing.Size(67, 20);
             this.メニューFToolStripMenuItem.Text = "ファイル(&F)";
             // 
-            // 新規作成NToolStripMenuItem
+            // tsmiCreateNew
             // 
-            this.新規作成NToolStripMenuItem.Name = "新規作成NToolStripMenuItem";
-            this.新規作成NToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
-            this.新規作成NToolStripMenuItem.Size = new System.Drawing.Size(181, 22);
-            this.新規作成NToolStripMenuItem.Text = "新規作成(&N)";
+            this.tsmiCreateNew.Name = "tsmiCreateNew";
+            this.tsmiCreateNew.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.tsmiCreateNew.Size = new System.Drawing.Size(181, 22);
+            this.tsmiCreateNew.Text = "新規作成(&N)";
+            this.tsmiCreateNew.Click += new System.EventHandler(this.tsmiCreateNew_Click);
             // 
             // OToolStripMenuItem
             // 
@@ -162,7 +167,7 @@
             // 
             this.tsmiUndo.Name = "tsmiUndo";
             this.tsmiUndo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
-            this.tsmiUndo.Size = new System.Drawing.Size(180, 22);
+            this.tsmiUndo.Size = new System.Drawing.Size(173, 22);
             this.tsmiUndo.Text = "元に戻す(&U)";
             this.tsmiUndo.Click += new System.EventHandler(this.tsmiUndo_Click);
             // 
@@ -170,20 +175,20 @@
             // 
             this.tsmiRedo.Name = "tsmiRedo";
             this.tsmiRedo.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
-            this.tsmiRedo.Size = new System.Drawing.Size(180, 22);
+            this.tsmiRedo.Size = new System.Drawing.Size(173, 22);
             this.tsmiRedo.Text = "やり直し(&R)";
             this.tsmiRedo.Click += new System.EventHandler(this.tsmiRedo_Click);
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(170, 6);
             // 
             // tsmiCut
             // 
             this.tsmiCut.Name = "tsmiCut";
             this.tsmiCut.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
-            this.tsmiCut.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCut.Size = new System.Drawing.Size(173, 22);
             this.tsmiCut.Text = "切り取り(&T)";
             this.tsmiCut.Click += new System.EventHandler(this.tsmiCut_Click);
             // 
@@ -191,7 +196,7 @@
             // 
             this.tsmiCopy.Name = "tsmiCopy";
             this.tsmiCopy.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
-            this.tsmiCopy.Size = new System.Drawing.Size(180, 22);
+            this.tsmiCopy.Size = new System.Drawing.Size(173, 22);
             this.tsmiCopy.Text = "コピー(&T)";
             this.tsmiCopy.Click += new System.EventHandler(this.tsmiCopy_Click);
             // 
@@ -199,22 +204,41 @@
             // 
             this.tsmiPaste.Name = "tsmiPaste";
             this.tsmiPaste.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
-            this.tsmiPaste.Size = new System.Drawing.Size(180, 22);
+            this.tsmiPaste.Size = new System.Drawing.Size(173, 22);
             this.tsmiPaste.Text = "貼り付け(&P)";
             this.tsmiPaste.Click += new System.EventHandler(this.tsmiPaste_Click);
             // 
             // toolStripSeparator4
             // 
             this.toolStripSeparator4.Name = "toolStripSeparator4";
-            this.toolStripSeparator4.Size = new System.Drawing.Size(177, 6);
+            this.toolStripSeparator4.Size = new System.Drawing.Size(170, 6);
             // 
             // tsmiDelete
             // 
             this.tsmiDelete.Name = "tsmiDelete";
             this.tsmiDelete.ShortcutKeys = System.Windows.Forms.Keys.Delete;
-            this.tsmiDelete.Size = new System.Drawing.Size(180, 22);
+            this.tsmiDelete.Size = new System.Drawing.Size(173, 22);
             this.tsmiDelete.Text = "削除(&D)";
             this.tsmiDelete.Click += new System.EventHandler(this.tsmiDelete_Click);
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(170, 6);
+            // 
+            // tsmiFont
+            // 
+            this.tsmiFont.Name = "tsmiFont";
+            this.tsmiFont.Size = new System.Drawing.Size(173, 22);
+            this.tsmiFont.Text = "フォント";
+            this.tsmiFont.Click += new System.EventHandler(this.tsmiFont_Click);
+            // 
+            // tsmiColor
+            // 
+            this.tsmiColor.Name = "tsmiColor";
+            this.tsmiColor.Size = new System.Drawing.Size(173, 22);
+            this.tsmiColor.Text = "色";
+            this.tsmiColor.Click += new System.EventHandler(this.tsmiColor_Click);
             // 
             // 文字コードCToolStripMenuItem
             // 
@@ -228,24 +252,6 @@
             this.ヘルプCToolStripMenuItem.Size = new System.Drawing.Size(63, 20);
             this.ヘルプCToolStripMenuItem.Text = "ヘルプ(&C)";
             // 
-            // tsmiFont
-            // 
-            this.tsmiFont.Name = "tsmiFont";
-            this.tsmiFont.Size = new System.Drawing.Size(180, 22);
-            this.tsmiFont.Text = "フォント";
-            this.tsmiFont.Click += new System.EventHandler(this.tsmiFont_Click);
-            // 
-            // tsmiColor
-            // 
-            this.tsmiColor.Name = "tsmiColor";
-            this.tsmiColor.Size = new System.Drawing.Size(180, 22);
-            this.tsmiColor.Text = "色";
-            // 
-            // toolStripSeparator3
-            // 
-            this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
-            // 
             // TextEditer
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -255,7 +261,8 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "TextEditer";
-            this.Text = "Form1";
+            this.Text = "Form";
+            this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.TextEditer_FormClosing);
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);
@@ -273,7 +280,7 @@
         private System.Windows.Forms.ToolStripMenuItem 編集EToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 文字コードCToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem ヘルプCToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem 新規作成NToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmiCreateNew;
         private System.Windows.Forms.ToolStripMenuItem OToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem smiOverwrite;
         private System.Windows.Forms.ToolStripMenuItem AToolStripMenuItem;
